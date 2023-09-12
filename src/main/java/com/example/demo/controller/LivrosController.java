@@ -16,32 +16,32 @@ public class LivrosController {
     @Autowired
     LivrosService livrosService;
 
-    @PreAuthorize("anyRole('USER', 'EMPLOYEE', 'ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(path = "/livros")
     public List<LivrosModel> exibeTodosLivros() {
         return livrosService.exibirTodos();
     }
 
-    @PreAuthorize("anyRole('USER', 'EMPLOYEE', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_EMPLOYEE', 'ROLE_ADMIN')")
     @GetMapping(path = "/livros/{id}")
     public Optional<LivrosModel> exibirLivroPorId(@PathVariable Long id) { //optional vai pegar uma lista e procurar dentro da lista uma informação
         return livrosService.exibirPorId(id);
     }
 
-    @PreAuthorize("anyRole('EMPLOYEE', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_EMPLOYEE', 'ROLE_ADMIN')")
     @PostMapping(path = "/livros")
     @ResponseStatus(HttpStatus.CREATED)
     public LivrosModel cadastrarNovoLivro(@RequestBody LivrosModel livrosModel) {
         return livrosService.cadastrar(livrosModel);
     }
 
-    @PreAuthorize("anyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PutMapping(path = "/livros/{id}")
     public LivrosModel alterarLivro(@PathVariable Long id, @RequestBody LivrosModel livrosModel) {
         return livrosService.alterar(id, livrosModel);
     }
 
-    @PreAuthorize("anyRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @DeleteMapping(path = "/livros/{id}")
     public void deletarLivro(@PathVariable Long id) {
         livrosService.deletar(id);
