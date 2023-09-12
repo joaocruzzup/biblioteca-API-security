@@ -16,7 +16,7 @@ public class LivrosController {
     @Autowired
     LivrosService livrosService;
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_EMPLOYEE', 'ROLE_ADMIN')")
     @GetMapping(path = "/livros")
     public List<LivrosModel> exibeTodosLivros() {
         return livrosService.exibirTodos();
